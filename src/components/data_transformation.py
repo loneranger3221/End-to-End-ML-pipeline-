@@ -16,8 +16,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-'''Defining configurations for data transformation'''
 
+'''Defining configurations for data transformation'''
 @dataclass
 class DataTransformationConfig:
     preprocessor_obj_file_path = os.path.join('artifacts', 'preprocessor.pkl')
@@ -27,6 +27,7 @@ class DataTransformation:
         self.data_transformation_config = DataTransformationConfig()
         
     def get_data_transformer_object(self):
+        '''Step-1 create the numerical and categorical pipeline for data transformation'''
         try:
             numerical_columns = ['writing score', 'reading score']
             categorical_columns =[
@@ -52,7 +53,7 @@ class DataTransformation:
             )
             logging.info("categorical and numerical pipeline created")
             
-            '''Now we will combine both the pipelines using column transformer'''
+            '''Step-2 Now we will combine both the pipelines using column transformer'''
             preprocessor = ColumnTransformer(
                 [
                     ('num_pipeline', num_pipeline, numerical_columns),
@@ -64,6 +65,7 @@ class DataTransformation:
         except Exception as e:
             logging.info("Exception occured in data transformation")
             raise CustomException(e, sys)
+        
     
     def initiate_data_transformation(self, train_path, test_path):
         try:

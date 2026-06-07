@@ -8,6 +8,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
 
 '''dataclasses is a decorator that automatically generates special methods like __init__() and __repr__() for classes, making it easier to create classes that primarily store data.'''
 from dataclasses import dataclass
@@ -55,4 +57,7 @@ if __name__=="__main__":
     train_data,test_data=obj.initiate_data_ingestion()
     
     data_transformation=DataTransformation()
-    data_transformation.initiate_data_transformation(train_data,test_data)
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+    model_trainer=ModelTrainer()
+    print('Best model score is : {}'.format(model_trainer.initiate_model_trainer(train_arr,test_arr)))
+    
