@@ -21,23 +21,31 @@ def save_object(file_path, obj):
         raise CustomException(e, sys)
  
 
-from sklearn.metrics import r2_score   
+from sklearn.metrics import r2_score 
+from sklearn.model_selection import GridSearchCV
     
-def evaluate_models(X_train,y_train,X_test,y_test,models):
+def evaluate_models(X_train,y_train,X_test,y_test,models,params):
     try:
         model_report = {}
         
-        for i in range(len(models)):
-            model = list(models.values())[i]
-            model.fit(X_train, y_train)
+        for name,model in list(models.items()):
+            param=params[name]
             
-            y_train_pred = model.predict(X_train)
-            y_test_pred = model.predict(X_test)
+            grid=GridSearchCV(estimator=model,param_grid=param,cv=3,verbose=1)
+            grid.fit(X_train, y_train)
+            
+            '''now we will fit the best parameters to the original model '''
+            
+             # FIX: Use the fully fitted best model instance directly
+            best_model = grid.best_estimator_
+            
+            y_train_pred = best_model.predict(X_train)
+            y_test_pred = best_model.predict(X_test)
             
             train_model_score = r2_score(y_train, y_train_pred)
             test_model_score = r2_score(y_test, y_test_pred)
             
-            model_report[list(models.keys())[i]] = test_model_score
+            model_report[name] = test_model_score
             
         return model_report
     except Exception as e:
