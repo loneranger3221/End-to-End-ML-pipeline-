@@ -27,17 +27,16 @@ from sklearn.model_selection import GridSearchCV
 def evaluate_models(X_train,y_train,X_test,y_test,models,params):
     try:
         model_report = {}
+        fitted_models = {}
         
         for name,model in list(models.items()):
-            param=params[name]
+            param = params[name]
             
-            grid=GridSearchCV(estimator=model,param_grid=param,cv=3,verbose=1)
+            grid = GridSearchCV(estimator=model, param_grid=param, cv=3, verbose=1)
             grid.fit(X_train, y_train)
             
-            '''now we will fit the best parameters to the original model '''
-            
-             # FIX: Use the fully fitted best model instance directly
             best_model = grid.best_estimator_
+            fitted_models[name] = best_model
             
             y_train_pred = best_model.predict(X_train)
             y_test_pred = best_model.predict(X_test)
@@ -47,7 +46,16 @@ def evaluate_models(X_train,y_train,X_test,y_test,models,params):
             
             model_report[name] = test_model_score
             
-        return model_report
+        return model_report, fitted_models
     except Exception as e:
         raise CustomException(e,sys)
     
+    
+def load_object(file_path):
+    try:
+        with open(file_path,'rb') as file_obj:
+            return dill.load(file_obj)
+        
+    except Exception as e:
+        raise CustomException(e,sys)
+        

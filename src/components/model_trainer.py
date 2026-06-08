@@ -67,12 +67,12 @@ class ModelTrainer:
             }
             
             
-            model_report:dict = evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test= y_test,models=models,params=params)
+            model_report, fitted_models = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models, params=params)
             
             best_model_score = max(model_report.values())
             best_model_name = [k for k, v in model_report.items() if v == best_model_score][0]
             
-            best_model = models[best_model_name]
+            best_model = fitted_models[best_model_name]
             
             if best_model_score < 0.6:
                 raise CustomException('No best model found with R2 score greater than 0.6', sys)
