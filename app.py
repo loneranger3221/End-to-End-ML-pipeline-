@@ -2,7 +2,8 @@ from flask import Flask, request, render_template
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 from src.exception import CustomException
 
-app = Flask(__name__)
+application = Flask(__name__)
+app=application
 
 '''Creating route for home page'''
 @app.route('/')
@@ -30,6 +31,7 @@ def predict_datapoint():
 
         features = data.get_data_as_frame()
         pred_pipeline = PredictPipeline()
+        
         prediction = pred_pipeline.predict(features=features)[0]
 
         return render_template(
@@ -47,5 +49,6 @@ def predict_datapoint():
         return render_template('result.html', error=str(e))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
-        
+    app.run(host='0.0.0.0') #debug=True will be ok while deploying
+    
+    '''we will use elastic beanstalk in AWS to deploy our application . first create .ebextensions folder for it '''

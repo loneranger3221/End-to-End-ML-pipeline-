@@ -11,6 +11,7 @@ def get_requirements(file_path:str)->List[str]:
         if HYPHEN_E_DOT in requirements:
             requirements.remove(HYPHEN_E_DOT) 
         return requirements
+    '''we added -e . to run setup.py in editable mode. This allows us to make changes to our code and have those changes reflected immediately without needing to reinstall the package. It is particularly useful during development when we are frequently updating our code.'''
 
 setup(
     name='ml_app',
@@ -22,5 +23,3 @@ setup(
     install_requires=get_requirements('requirements.txt')
 )
 '''find_packages() is a function from setuptools that automatically discovers all packages and subpackages in the project directory. It looks for __init__.py files to identify packages. This allows us to organize our code into multiple modules and submodules without having to manually specify each one in the setup script.'''
-
-'''we added -e . to run setup.py in editable mode. This allows us to make changes to our code and have those changes reflected immediately without needing to reinstall the package. It is particularly useful during development when we are frequently updating our code.'''
