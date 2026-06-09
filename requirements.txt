@@ -1,9 +1,6 @@
 numpy
 pandas
-matplotlib
 scikit-learn
-seaborn
-catboost
-xgboost
 dill
+Flask
 #-e .

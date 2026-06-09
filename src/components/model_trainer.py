@@ -10,7 +10,6 @@ from src.utils import save_object, evaluate_models
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
-from xgboost import XGBRegressor
 from sklearn.ensemble import (RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor)
 
 
@@ -36,7 +35,6 @@ class ModelTrainer:
                 'Linear Regression': LinearRegression(),
                 'KNN Regressor': KNeighborsRegressor(),
                 'Decision Tree Regressor': DecisionTreeRegressor(),
-                'XGB Regressor': XGBRegressor(),
                 'Random Forest Regressor': RandomForestRegressor(),
                 'AdaBoost Regressor': AdaBoostRegressor(),
                 'Gradient Boosting Regressor': GradientBoostingRegressor()
@@ -59,10 +57,6 @@ class ModelTrainer:
                 'KNN Regressor': {
                     'n_neighbors': [5,7,9,11],
                     },
-                'XGB Regressor': {
-                    'learning_rate':[.1,.01,.05,.001],
-                    'n_estimators': [8,16,32,64,128,256]
-                },
                 'AdaBoost Regressor':{}
             }
             
